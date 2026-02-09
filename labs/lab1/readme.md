@@ -1,49 +1,56 @@
-# Lab 1: Infrastructure Foundations for NGINX for Azure
+# Lab 1: Deploying and Exploring NGINX for Azure
 
 ## Overview
-Welcome to **App World 2026**. This lab is a core component of the session:
+Welcome to **App World 2026**. This lab is a core component of the session:  
 **"Mastering cloud-native app delivery: Unlocking advanced capabilities and use cases with F5’s ADCaaS."**
 
-In this module, you will establish the core networking and identity foundations required to deploy NGINXaaS (NGINX for Azure). To ensure we maximize our time during the workshop, the base networking layer is treated as a pre-provisioned foundation, allowing us to focus on the advanced configuration and integration of F5's ADCaaS solutions.
-
-## Objectives
-* Understand the VNet and Subnet architecture required for NGINXaaS.
-* Establish secure inbound traffic flow via Network Security Groups (NSGs).
-* Configure Identity and Access Management (IAM) using Managed Identities.
+In this module, you will transition from infrastructure prep to active service delivery. You will deploy your NGINX for Azure (NGINXaaS) resource, explore its native integration within the Azure Portal, and establish a centralized logging pipeline.
 
 ---
 
-## Part 1: Pre-provisioned Infrastructure
-*The following components are deployed via automation prior to the workshop to provide a consistent starting environment.*
+## 🏗️ Pre-provisioned Infrastructure
+To maximize our time during this workshop, the following baseline infrastructure has already been provisioned for you:
 
-### 1.1 Azure Resource Group
-All resources for this workshop are contained within a dedicated resource group.
-* **Resource Group Name:** `AppWorld2026-ADCaaS-RG`
-* **Region:** `[Workshop Region]`
-
-### 1.2 Virtual Network (VNet) and Subnets
-NGINX for Azure requires a delegated subnet to function as a native service.
-* **VNet:** `adc-vnet` (10.1.0.0/16)
-* **NGINX Subnet:** `nginx-delegated-subnet` (10.1.1.0/24) 
-    * *Delegated to: `NGINX.NGINXPLUS/nginxproxies`*
-* **Backend Subnet:** `workload-subnet` (10.1.2.0/24)
-
-### 1.3 Network Security Group (NSG)
-Security rules are applied to the subnets to ensure a "secure by default" posture:
-* **Port 80/443:** Open for web traffic delivery.
-* **Port 22:** Restricted for administrative access.
+* **Azure Resource Group:** A dedicated container for all workshop resources.
+* **Virtual Network & Subnets:** A VNet including a delegated subnet specifically for NGINX for Azure.
+* **Network Security Group (NSG):** Pre-configured rules for inbound traffic (Port 80/443).
+* **Public IP Address:** A static IP address for the NGINX frontend.
+* **Managed Identity:** A user-assigned identity for secure, secret-less access to Azure services.
 
 ---
 
-## Part 2: Managed Identity & Connectivity
-*These steps ensure your ADCaaS instance can securely interact with Azure services (like Key Vault) and is accessible to the public.*
+## 🚀 Lab Exercises
 
-### 2.1 Create a Public IP Address
-This static IP will serve as the entry point for your NGINX for Azure deployment.
+### Task 1: Deploy an NGINX for Azure Resource
+Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisioned network and identity.
 
-```bash
-az network public-ip create \
-  --resource-group AppWorld2026-ADCaaS-RG \
-  --name nginx-public-ip \
-  --sku Standard \
-  --allocation-method Static
+1.  In the Azure Portal, search for **NGINX for Azure**.
+2.  Click **Create** and select the **Standard Monthly** SKU.
+3.  Under the **Networking** tab, select the pre-provisioned VNet and delegated subnet.
+4.  Associate the **Public IP** and the **User Assigned Managed Identity** created during the setup phase.
+5.  Click **Review + Create**.
+
+### Task 2: Explore NGINX for Azure
+Once the deployment is complete, take a few minutes to explore the NGINX resource in the Azure Portal.
+
+* **Overview:** View the status, SKU, and Public IP.
+* **NGINX Configuration:** Note where the configuration files are managed directly in the portal.
+* **Metrics:** Observe the built-in dashboards for HTTP requests and upstream health.
+
+### Task 3: Create an Initial NGINX Configuration
+Establish a basic configuration to ensure the service is processing traffic correctly.
+
+1.  Navigate to the **NGINX Configuration** blade in your NGINX resource.
+2.  Click on **+ Add Configuration File**.
+3.  Set the path to `/etc/nginx/nginx.conf`.
+4.  Use the following basic block to return a welcome message:
+   ```nginx
+   http {
+       server {
+           listen 80;
+           location / {
+               default_type text/plain;
+               return 200 "Welcome to App World 2026! NGINX for Azure is operational.";
+           }
+       }
+   }
