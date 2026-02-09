@@ -54,3 +54,32 @@ http {
     # Task: Include modular configuration files
     include /etc/nginx/conf.d/*.conf;
 }
+
+
+Create the modular config file: Click the + New File button in the Configuration Editor tool.
+
+Name the new file: /etc/nginx/conf.d/cafe.example.com.conf.
+
+Add the Upstream and Server blocks: Copy and paste the following contents into the editor for the new file.
+
+Note: Replace [VM_INTERNAL_IP] with the private IP of your pre-provisioned Ubuntu VM.
+
+upstream docker_backend {
+    # Replace [VM_INTERNAL_IP] with the private IP of your Ubuntu VM
+    server [VM_INTERNAL_IP]:80;
+}
+
+server {
+    listen 80;
+    server_name cafe.example.com;
+
+    location / {
+        proxy_pass http://docker_backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+Click Submit to apply the configuration. Azure will perform a syntax check and push the update to your NGINX instances
