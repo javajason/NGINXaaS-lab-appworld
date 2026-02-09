@@ -51,20 +51,19 @@ Now that your resource is live and monitored, take a few minutes to explore the 
 * **NGINX Configuration:** Note where the configuration files are managed directly in the portal.
 * **Metrics:** Observe the built-in dashboards for HTTP requests and upstream health.
 
-### Task 4: Create an Initial NGINX Configuration
-Establish a basic configuration to ensure the service is processing traffic correctly.
+NGINX as a Service for Azure is a service offering that is tightly integrated into Microsoft Azure public cloud and its ecosystem, making applications fast, efficient, and reliable with full lifecycle management of advanced NGINX traffic services. NGINXaaS for Azure is available in the Azure Marketplace.
 
-1.  Navigate to the **NGINX Configuration** blade in your NGINX resource.
-2.  Click on **+ Add Configuration File**.
-3.  Set the path to `/etc/nginx/nginx.conf`.
-4.  Use the following basic block:
-   ```nginx
-   http {
-       server {
-           listen 80;
-           location / {
-               default_type text/plain;
-               return 200 "Welcome to App World 2026! NGINX for Azure is operational.";
-           }
-       }
-   }
+NGINXaaS for Azure is powered by NGINX Plus, which extends NGINX Open Source with advanced functionality and provides customers with a complete application delivery solution. Initial use cases covered by NGINXaaS include L4 TCP and L7 HTTP load balancing and reverse proxy which can be managed through various Azure management tools. NGINXaaS allows you to provision distinct deployments as per your business or technical requirements.
+
+In this section you will be looking at NGINX for Azure resource that you created within Azure portal.
+
+Open Azure portal within your browser and then open your resource group.
+
+
+
+
+Congratulations!!! you have successfully deployed the sample index page within NGINX for Azure. This also completes the validation of all the resources that you created using Azure CLI. In the upcoming labs you would be modifying the configuration files and exploring various features of NGINX for Azure resources.
+
+
+This completes Lab1.
+
