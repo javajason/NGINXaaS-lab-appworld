@@ -51,7 +51,7 @@ upstream cafe_nginx {
 ```
  4. Click Submit to save this part of the configuration.
 
-3. Create the Virtual Server Configuration
+#### 3. Create the Virtual Server Configuration
 
   1. Click + New File again.
 
@@ -77,3 +77,12 @@ server {
     }
 }
 ```
+
+ 4. Click Submit to save.
+
+#### 4. Update the Main NGINX Configuration
+1. You must now include these new files into your main nginx.conf.
+
+2. Select the nginx.conf file in the editor file tree.
+
+3. Replace the existing content with the following:
