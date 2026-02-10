@@ -49,4 +49,31 @@ upstream cafe_nginx {
     keepalive 32;
 }
 ```
-4. Click Submit to save this part of the configuration.
+ 4. Click Submit to save this part of the configuration.
+
+3. Create the Virtual Server Configuration
+
+   1. Click + New File again.
+
+  2. Name the second file: /etc/nginx/conf.d/cafe.example.com.conf.
+
+  3. Copy and paste the following contents into the editor:
+
+   # Nginx 4 Azure - Cafe Nginx HTTP
+```nginx
+server {
+    
+    listen 80;      # Listening on port 80
+
+    server_name cafe.example.com;   # Set hostname to match in request
+    status_zone cafe.example.com;   # Metrics zone name
+
+    access_log  /var/log/nginx/cafe.example.com.log main;
+    error_log   /var/log/nginx/cafe.example.com_error.log info;
+
+    location / {
+        proxy_pass http://cafe_nginx;        # Proxy and load balance to the upstream group
+        add_header X-Proxy-Pass cafe_nginx;  # Custom verification header
+    }
+}
+```
