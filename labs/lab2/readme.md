@@ -53,7 +53,7 @@ upstream cafe_nginx {
 
 3. Create the Virtual Server Configuration
 
-   1. Click + New File again.
+  1.  Click + New File again.
 
   2. Name the second file: /etc/nginx/conf.d/cafe.example.com.conf.
 
