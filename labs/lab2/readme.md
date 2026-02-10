@@ -29,10 +29,10 @@ In this section, we will configure NGINX for Azure to load balance traffic to th
 3. From the left pane, click on **NGINX Configuration** under the Settings section.
 
 #### 2. Create the Upstream Configuration
-1. Click on **+ New File** to create a new NGINX config file. 
-2. Name the new file: `/etc/nginx/conf.d/cafe-docker-upstreams.conf`.
+ 1. Click on **+ New File** to create a new NGINX config file. 
+ 2. Name the new file: `/etc/nginx/conf.d/cafe-docker-upstreams.conf`.
    > **Important:** You must use the full Linux `/directory/filename` path for every config file. The Azure Portal does not support drag-and-drop.
-3. Copy and paste the following contents into the editor:
+ 3. Copy and paste the following contents into the editor:
 
 ```nginx
 # Nginx 4 Azure, Cafe Nginx Demo Upstreams
@@ -53,14 +53,14 @@ upstream cafe_nginx {
 
 3. Create the Virtual Server Configuration
 
-  1.  Click + New File again.
+  1. Click + New File again.
 
   2. Name the second file: /etc/nginx/conf.d/cafe.example.com.conf.
 
   3. Copy and paste the following contents into the editor:
 
+  ```nginx 
    # Nginx 4 Azure - Cafe Nginx HTTP
-```nginx
 server {
     
     listen 80;      # Listening on port 80
