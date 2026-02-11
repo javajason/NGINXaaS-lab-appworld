@@ -36,3 +36,39 @@ server {
         proxy_set_header Host $host;
     }
 }
+```
+5. Submit and verify you can access the Juice Shop via your browser (ensure your hosts file is updated for juiceshop.example.com).
+
+### Task 2: Implement Rate Limiting
+
+Now, we will restrict the number of requests a single client can make to prevent abuse.
+
+1. Go back to the NGINX Configuration editor in the Azure Portal.
+
+2. Open your main /etc/nginx/nginx.conf file.
+
+3. In the http block (above the include line), define the rate limit zone:
+
+```nginx
+http {
+    # Define a shared memory zone 'mylimit' to track IP addresses 
+    # and allow 1 request per second (1r/s)
+    limit_req_zone $binary_remote_addr zone=mylimit:10m rate=1r/s;
+
+    include /etc/nginx/conf.d/*.conf;
+}
+```
+5. Click Submit.
+
+### Task 3: Test the Rate Limit
+
+ 1. To see the rate limiting in action, we need to send requests faster than 1 per second.
+
+ 2. Open a terminal on your local machine.
+
+ 3. Run a loop to hit the site rapidly:
+
+```bash
+  for i in {1..10}; do curl -I [http://juiceshop.example.com](http://juiceshop.example.com); done
+```
+
