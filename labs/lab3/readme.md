@@ -6,7 +6,7 @@ In this lab, you will explore Azure based monitoring and Logging capabilities. Y
 
 NGINX aaS | Docker
 :-------------------------:|:-------------------------:
-![NGINX aaS](media/nginx-azure-icon.png)  |![Docker](media/docker-icon.png)
+![NGINX aaS](images/nginx-azure-icon.png)  |![Docker](images/docker-icon.png)
   
 ## Learning Objectives
 
