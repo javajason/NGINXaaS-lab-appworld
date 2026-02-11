@@ -17,7 +17,23 @@ To maximize our time during this workshop, the following baseline infrastructure
 * **Public IP Address:** A static IP address for the NGINX frontend.
 * **Managed Identity:** A user-assigned identity for secure, secret-less access to Azure services.
 
+## Prerequisites
+
+- You must have an Azure account
+- You must have the Azure CLI software installed on your local system
+- See `Lab0` for instructions on setting up your system for this Workshop
+- Familiarity with basic Linux concepts and commands
+- Familiarity with basic Azure concepts and commands
+- Familiarity with basic Nginx concepts and commands
+
+<br/>
+
+![lab1 diagram](media/lab1_diagram.png)
+
+<br/>
+
 ---
+
 
 ## 🚀 Lab Exercises
 
