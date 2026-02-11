@@ -89,3 +89,20 @@ http {
   for i in {1..10}; do curl -I [http://juiceshop.example.com](http://juiceshop.example.com); done
 ```
 
+4. Observe the results: You should see several 200 OK responses followed by 503 Service Temporarily Unavailable (or 429 Too Many Requests depending on NGINX version/config) as the rate limit kicks in.
+
+### Task 4: Verify via Log Analytics
+
+ 1. Navigate to your Log Analytics Workspace.
+
+ 2. Run the following query to see the rejected requests:
+
+```code snippet
+NGINXAccessLogs
+| where HttpStatus >= 400
+| project TimeGenerated, ClientIp, RequestUri, HttpStatus
+| order by TimeGenerated desc
+```
+
+
+Congratulations on completing Lab 4!
