@@ -182,4 +182,8 @@ Now, test out the newly-deployed default WAF policy.
 
    ## Expected Results
 
-  (Need to describe what students should expect to see and provide a screenshot.)
+If you applied the WAF policy correctly, each request should result in a page that indicates the URL was rejected.
+
+|           Web Browser            |
+| :--------------------------------------: |
+| ![NGINX aaS](WAF%20-%20URL%20block%20page.png) |
