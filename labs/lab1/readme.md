@@ -57,7 +57,9 @@ Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisi
     * Associate the **User Assigned Managed Identity** created during the setup phase.
 6.  **Review + Create:**
     * Click **Review + Create**. Once validation passes, click **Create** to launch your NGINX instance.
-
+ 
+  ![Deploy NGINXaaS](images/lab1_deploy_nginxaas.png)
+  
 ### Task 2: Create Log Analytics Workspace & Enable Monitoring
 Before exploring the resource, we will set up the logging destination to ensure all subsequent activity is captured.
 
@@ -70,6 +72,7 @@ Before exploring the resource, we will set up the logging destination to ensure 
 7.  Under "Destination details," check **Send to Log Analytics workspace** and select the workspace you just created.
 8.  **Save** the settings.
 
+  ![Create Log Analytics](images/lab1_create_log.png)
 
 ### Explore Nginx for Azure
 
@@ -89,27 +92,15 @@ In this section you will be looking at NGINX for Azure resource that you created
 
    ![Portal N4A home](images/lab1_portal_n4a_home.png)
 
-3. From the left pane click on `Settings > NGINX Configuration`. As you are opening this resource for first time and you do not have any configuration present, Azure will prompt you to "Get started with a Configuration example". Click on `Populate now` button to start with a sample configuration example.
-
-   ![nginx conf populate](images/lab1_nginx_conf_populate.png)
-
-4. Once you click on the `Populate now` button you will see the configuration editor section has been populated with `nginx.conf` and an `index.html` page. Click on the `Submit` button to deploy this sample config files to the NGINX for Azure resource.
-
-   ![nginx conf editor](images/lab1_nginx_conf_editor.png)
-
-5. Once you have submitted the configuration, you can watch its progress in the notification tab present in right top corner. Intially status would be "Updating NGINX configuration" which would change to "Updated NGINX configuration successfully".
-
-   ![nginx conf submit success](images/lab1_nginx_conf_submit_success.png)
-
-6. Navigate back to Overview section and copy the public IP address of NGINX for Azure resource.
+3. Navigate back to Overview section and copy the public IP address of NGINX for Azure resource.
 
    ![Copy IP Address](images/lab1_copy_ip_address.png)
 
-7. In a new browser window, paste the public IP into the address bar. You will notice the sample index page gets rendered into your browser.
+4. In a new browser window, paste the public IP into the address bar. You will notice the sample index page gets rendered into your browser.
 
    ![n4a Index Page](images/lab1_n4a_index_page.png)
 
-8. Congratulations!!! you have successfully deployed the sample index page within NGINX for Azure. This also completes the validation of all the resources that you created using Azure CLI. In the upcoming labs you would be modifying the configuration files and exploring various features of NGINX for Azure resources.
+5. Congratulations!!! you have successfully deployed the sample index page within NGINX for Azure. This also completes the validation of all the resources that you created using Azure CLI. In the upcoming labs you would be modifying the configuration files and exploring various features of NGINX for Azure resources.
 
 <br/>
 
