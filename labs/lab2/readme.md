@@ -21,7 +21,9 @@ To focus specifically on NGINX configuration, the following backend resources ha
 
 In this section, we will configure NGINX for Azure to load balance traffic to the Docker containers running on your Ubuntu VM.
 
-
+NGINX aaS | Docker | Cafe Demo
+:-------------------------:|:-------------------------:|:-------------------------:
+![NGINX aaS](images/nginx-azure-icon.png)  |![Docker](images/docker-icon.png)  |![Nginx Cafe](images/cafe-icon.png)
 
 #### 1. Access the Configuration Editor
 1. Open the **Azure Portal** and navigate to your **Resource Group**. 
