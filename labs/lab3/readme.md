@@ -162,7 +162,7 @@ In this section you will create an extended log format which you will use with `
     ![cafe query save](images/lab6_cafe_query_save.png)
 
 
-**This completes Lab6.**
+**This completes Lab3.**
 
 ## References:
 
