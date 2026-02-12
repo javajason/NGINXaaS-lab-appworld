@@ -28,7 +28,7 @@ To maximize our time during this workshop, the following baseline infrastructure
 
 <br/>
 
-![lab1 diagram](media/lab1_diagram.png)
+![lab1 diagram](images/lab1_diagram.png)
 
 <br/>
 
