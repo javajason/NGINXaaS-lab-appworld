@@ -58,7 +58,9 @@ http {
     include /etc/nginx/conf.d/*.conf;
 }
 ```
-4. Now, open /etc/nginx/conf.d/juiceshop.conf and apply the limit to the location block:
+3. Click Submit.
+
+5. Now, open /etc/nginx/conf.d/juiceshop.conf and apply the limit to the location block:
    
 ```nginx
   server {
@@ -75,21 +77,41 @@ http {
     }
 }
 ```
-5. Click Submit.
+6. Click Submit.
 
 ### Task 3: Test the Rate Limit
 
  1. To see the rate limiting in action, we need to send requests faster than 1 per second.
 
  2. Open a terminal on your local machine.
+ 
+ 3. Like before, update your local system's DNS `/etc/hosts` file. This time, you will add the hostname `juiceshop.example.com` after your previous update (`cafe.example.com`), as shown below:
 
- 3. Run a loop to hit the site rapidly:
+    ```bash
+    cat /etc/hosts
+
+    127.0.0.1 localhost
+    ...
+
+    # Nginx for Azure testing
+    11.22.33.44 cafe.example.com
+    11.22.33.44 juiceshop.example.com
+
+    ...
+    ```
+
+    where
+   - `11.22.33.44` replace with your `n4a-publicIP` resource IP address.
+
+ 4. Once you have updated the host your /etc/hosts file, save it and quit vi tool.
+ 
+ 5. Run a loop to hit the site rapidly:
 
 ```bash
-  for i in {1..10}; do curl -I [http://juiceshop.example.com](http://juiceshop.example.com); done
+  for i in {1..10}; do curl -I http://juiceshop.example.com; done
 ```
 
-4. Observe the results: You should see several 200 OK responses followed by 503 Service Temporarily Unavailable (or 429 Too Many Requests depending on NGINX version/config) as the rate limit kicks in.
+6. Observe the results: You should see several 200 OK responses followed by 503 Service Temporarily Unavailable (or 429 Too Many Requests depending on NGINX version/config) as the rate limit kicks in.
 
 ### Task 4: Verify via Log Analytics
 
