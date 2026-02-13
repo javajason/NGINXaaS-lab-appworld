@@ -97,6 +97,7 @@ add_header creates a Custom Header, and adds the limit_req_status $variable, so 
 
 ### Task 3: Test the Rate Limit
 
+
  1. To see the rate limiting in action, we need to send requests faster than 1 per second.
 
  2. Open a terminal on your local machine.
@@ -120,6 +121,34 @@ add_header creates a Custom Header, and adds the limit_req_status $variable, so 
    - `11.22.33.44` replace with your `n4a-publicIP` resource IP address.
 
  4. Once you have updated the host your /etc/hosts file, save it and quit vi tool.
+
+1. Open Chrome and go to `http://juiceshop.example.com`.  You should see the main Juiceshop page, explore around a bit if you like, find a great tasting smoothy.
+
+1. Right+Click, and choose `Inspect` on the Chrome menu to open Developer tools.  On the top Nav bar, click the `Network Tab`, and make sure the `Disable cache` is checked, you don't want Chrome caching any images for this exercise.
+
+1. Click Refresh, and you will see a long list of items being sent from the application.
+
+1. In the Object Details Display Bar, where you see `Name Status Type Size, Time, etc`, Right+Click again, then `Response Headers`, then `Manage Header Columns`.  
+
+    ![Chrome Headers](media/lab9_chrome-add-headers.png)
+
+    You will be adding your THREE custom Nginx headers to the display for easy viewing.  Click on `Add custom header...` , input these names one at a time:
+
+    - X-Cache-Status
+    - X-Proxy-Pass
+    - X-RateLimit-Status
+   
+
+1.  You have previously added the Nginx Custom Headers to the display, so you should already have a Header Column labeled `X-Ratelimit-Status`. Click Refresh Several times, what do you see?
+
+    ![Nginx Limit 100](media/lab9_rate-100.png)
+
+    You will see a partial Juiceshop webpage, as Nginx is only allowing your computer to send 100 req/s.  You see the Header status set to PASSED for requests that were allowed.  Other requests were stopped for `Exceeding the Rate Limit`. Check the HTTP Status Code on an item that failed, you will find the `503 Service Temporarily Unavailable`. Well, this is not actually the real situation, right? You have set a limit, not turned off the Service. So you will `change the HTTP Status code`, using the `limit_req_status` directive, which lets you set a custom HTTP Status code. The HTTP standard for "excessive requests" is normally `429.` So you will change it to that.
+
+    ![Nginx Limit 503](media/lab9_ratelimit-503.png)
+
+ 
+ This can also verified using your terminal. 
  
  5. Run a loop to hit the site rapidly:
 
