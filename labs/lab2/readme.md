@@ -210,6 +210,7 @@ http {
 
     # Load the modular files created in previous steps
     include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/includes/*.conf;
 }
 ```
 3.  Click the Submit button. NGINX will validate your configuration. If successful, it will reload with your new settings.
