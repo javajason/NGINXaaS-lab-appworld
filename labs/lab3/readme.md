@@ -102,18 +102,6 @@ In this section you will create an extended log format which you will use with `
 
 1. You can generate some traffic using your local Docker Desktop. Start and run the `WRK` load generation tool from a container using below command to generate traffic:
 
-   First save your NGINX for Azure resource public IP in a environment variable.
-
-    ```bash
-    ## Set environment variables
-    export MY_NAME=$(whoami)
-    export MY_RESOURCEGROUP=${MY_NAME}-n4a-workshop
-    export MY_N4A_IP=$(az network public-ip show \
-    --resource-group $MY_RESOURCEGROUP \
-    --name n4a-publicIP \
-    --query ipAddress \
-    --output tsv)    
-    ```
 
     Make request to the default server block which is using the `main` log format for access logging by running below command.
 
