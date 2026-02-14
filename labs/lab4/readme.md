@@ -192,5 +192,7 @@ NGXOperationLogs
 | summarize Count = count() by bin(TimeGenerated, 1m)
 | render barchart with (title="Lab 4: Blocked Requests (503) per Minute")
 ```
+  ![Nginx Limit 503 logs](images/lab4_ratelimitlogs-503.png)
 
+  
 Congratulations on completing Lab 4!
