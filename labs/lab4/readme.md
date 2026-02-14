@@ -136,7 +136,6 @@ add_header creates a Custom Header, and adds the limit_req_status $variable, so 
 
     - X-RateLimit-Status
   
-   
     ![Chrome Headers](images/lab4_chrome-manage-headers.png)
 
     ![Chrome new columns](images/lab4_chrome-new-columns.png)
@@ -148,7 +147,7 @@ add_header creates a Custom Header, and adds the limit_req_status $variable, so 
 
     You will see a partial Juiceshop webpage, as Nginx is only allowing your computer to send 100 req/s.  You see the Header status set to PASSED for requests that were allowed.  Other requests were stopped for `Exceeding the Rate Limit`. Check the HTTP Status Code on an item that failed, you will find the `503 Service Temporarily Unavailable`. Well, this is not actually the real situation, right? You have set a limit, not turned off the Service. So you will `change the HTTP Status code`, using the `limit_req_status` directive, which lets you set a custom HTTP Status code. The HTTP standard for "excessive requests" is normally `429.` So you will change it to that.
 
-    ![Nginx Limit 503](images/lab9_ratelimit-503.png)
+    ![Nginx Limit 503](images/lab4_ratelimit-503.png)
 
  
  This can also verified using your terminal. 
