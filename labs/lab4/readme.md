@@ -135,6 +135,11 @@ add_header creates a Custom Header, and adds the limit_req_status $variable, so 
     You will be adding your custom Nginx headers to the display for easy viewing.  Click on `Add custom header...` ,:
 
     - X-RateLimit-Status
+  
+   
+    ![Chrome Headers](images/lab4_chrome-manage-headers.png)
+
+    ![Chrome new columns](images/lab4_chrome-new-columns.png)
    
 
 1.  You have previously added the Nginx Custom Headers to the display, so you should already have a Header Column labeled `X-Ratelimit-Status`. Click Refresh Several times, what do you see?
