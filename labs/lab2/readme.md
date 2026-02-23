@@ -210,6 +210,7 @@ http {
 
     # Load the modular files created in previous steps
     include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/includes/*.conf;
 }
 ```
 3.  Click the Submit button. NGINX will validate your configuration. If successful, it will reload with your new settings.
@@ -253,8 +254,6 @@ http {
     X-Proxy-Pass: cafe_nginx
     ```
 
-    Try the coffee and tea URLs, at http://cafe.example.com/coffee and http://cafe.example.com/tea.
-
     You should see a 200 OK Response.  Did you see the `X-Proxy-Pass` header - set to the Upstream block name?  
 
 1. Now try access to your cafe application with a Browser. Open Chrome, and nagivate to `http://cafe.example.com`. You should see an `Out of Stock` image, with a gray metadata panel, filled with names, IP addresses, URLs, etc. This panel comes from the Docker container, using Nginx $variables to populate the gray panel fields. If you Right+Click, and Inspect to open Chrome Developer Tools, and look at the Response Headers, you should be able to see the ~~Server and~~ `X-Proxy-Pass Headers` set ~~respectively~~.
@@ -267,7 +266,12 @@ Click Refresh serveral times.  You will notice the `Server Name` and `Server Ip`
 
 Try http://cafe.example.com/coffee and http://cafe.example.com/tea in Chrome, refreshing several times.  You should find Nginx for Azure is load balancing these Docker web containers as expected.
 
->**Congratulations!!**  You have just completed launching a simple web application with Nginx for Azure, running on the Internet, with just a VM, Docker, and 2 config files for Nginx for Azure.  That pretty easy, not so hard now, was it?
+![Cafe_coffee](images/lab2_coffee.png)
+
+![Cafe tea](images/lab2_tea.png)
+
+
+**Congratulations!!**  You have just completed launching a simple web application with Nginx for Azure, running on the Internet, with just a VM, Docker, and 2 config files for Nginx for Azure.  That pretty easy, not so hard now, was it?
 
 <br/>
 
