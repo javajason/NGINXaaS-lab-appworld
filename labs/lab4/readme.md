@@ -25,10 +25,10 @@ A. The first parameter, $binary_remote_addr is the Key used in the memory zone f
 
 B. The second parmater, zone=limitXYZ:10m, is the name of the zone, and the size is 10MB. You can define larger memory zones if needed, 10MB is a good starting point. Each zone must have a unique name, which matches the actual limit being defined in this example. The size needed depends on how many Keys are stored.
 
-limitone is the zone for 1 request/second
-limit10 is the zone for 10 requests/second
-limit100 is the zone for 100 requests/second
-limit1000 is the zone for 1,000 requests/second
+- limitone is the zone for 1 request/second
+- limit10 is the zone for 10 requests/second
+- limit100 is the zone for 100 requests/second
+- limit1000 is the zone for 1,000 requests/second
 
 C. The third parameter is the actual Rate Limit Value, expressed as r/s for requests/second.
 
@@ -53,7 +53,7 @@ limit_req_zone $binary_remote_addr zone=limit1000:10m rate=1000r/s;
 
 ### Task 2: Apply the Rate Limits
 
-1. Now, need to add a new file and name it /etc/nginx/conf.d/juiceshop.conf and apply the limit to the location block:
+1. Now, create a new file named /etc/nginx/conf.d/juiceshop.conf and apply the limit to the location block:
 
    
 ```nginx
@@ -147,7 +147,8 @@ Update your nginx.conf
 
 1. Click Refresh, and you will see a long list of items being sent from the application.
 
-1. In the Object Details Display Bar, where you see `Name Status Type Size, Time, etc`, Right+Click again, then `Response Headers`, then `Manage Header Columns`.  
+1. In the Object Details Display Bar, where you see `Name Status Type Size, Time, etc`, Right+Click again, then `Response Headers`, then `Manage Header Columns`.
+Right-click on `juiceshop.example.com` from the list of items, then `Header options`, `Response Headers`, and `Manage Header Column`.
 
     ![Chrome Headers](images/lab4_chrome-add-headers.png)
 
@@ -164,10 +165,13 @@ Update your nginx.conf
 
     ![Nginx Limit 100](images/lab4_rate-100.png)
 
-    You will see a partial Juiceshop webpage, as Nginx is only allowing your computer to send 100 req/s.  You see the Header status set to PASSED for requests that were allowed.  Other requests were stopped for `Exceeding the Rate Limit`. Check the HTTP Status Code on an item that failed, you will find the `503 Service Temporarily Unavailable`. Well, this is not actually the real situation, right? You have set a limit, not turned off the Service. So you will `change the HTTP Status code`, using the `limit_req_status` directive, which lets you set a custom HTTP Status code. The HTTP standard for "excessive requests" is normally `429.` So you will change it to that.
+    You will see a partial Juiceshop webpage, as Nginx is only allowing your computer to send 100 req/s.  You see the Header status set to PASSED for requests that were allowed.  Other requests were stopped for `Exceeding the Rate Limit`. Check the HTTP Status Code on an item that failed, you will find the `503 Service Temporarily Unavailable`.
 
     ![Nginx Limit 503](images/lab4_ratelimit-503.png)
 
+   Well, this is not actually the real situation, right? You have set a limit, not turned off the Service. So you will `change the HTTP Status code`, using the `limit_req_status` directive, which lets you set a custom HTTP Status code. The HTTP standard for "excessive requests" is normally `429.` So you will change it to that.
+   
+   Add `limit_req_status 429;` to the /etc/nginx/includes/rate-limits.conf file after the `## Define HTTP Request Limit Zones` section. Click `Submit` and make sure the change is successful. Now, click `Refresh` on the Juice Shop page several more times and check the HTTP Status Code on an item that failed. It should now show `429 Too Many Requests`.
  
  This can also verified using your terminal. 
  
