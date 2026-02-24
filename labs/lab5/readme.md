@@ -12,6 +12,7 @@ The following resources are prepared for this lab:
 * You must have your Nginx for Azure instance running.
 * Your Nginx for Azure instance must be running with the "plan:standardv3" SKU.
 * You must have selected "Enable F5 WAF for NGINX" when creating the Nginx for Azure instance.
+  (If you forgot to do this when provisioning your NGINXaaS instance, you can go to the NGINXaaS Overview page, then `Settings` > `F5 WAF for NGINX`, and click `Enable`.)
 
 ---
 
