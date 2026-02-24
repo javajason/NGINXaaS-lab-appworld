@@ -69,8 +69,8 @@ server {
     status_zone juiceshop.example.com; 
 
     location / {
-        # This matches the 'zone=limitone' we just defined in rate-limit.conf
-        limit_req zone=limit100;  #burst=110;       # Set  Limit and burst here
+        # This matches the 'zone=limit10' we just defined in rate-limits.conf
+        limit_req zone=limit10;  #burst=11;       # Set  Limit and burst here
         
         proxy_pass http://juiceshop_backend;
         proxy_set_header Host $host;
