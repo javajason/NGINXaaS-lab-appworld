@@ -9,14 +9,12 @@ Welcome to **Lab 5**. In this module of **"Mastering cloud-native app delivery,"
 The following resources are prepared for this lab:
 * **Ubuntu VM:** Running OWASP Juice Shop in a Docker container on **Port 3000**.
 * **Internal IP:** Your instructor will provide the private IP of the Juice Shop VM.
-
 * You must have your Nginx for Azure instance running.
 * Your Nginx for Azure instance must be running with the "plan:standardv3" SKU.
 * You must have selected "Enable F5 WAF for NGINX" when creating the Nginx for Azure instance.
+  (If you forgot to do this when provisioning your NGINXaaS instance, you can go to the NGINXaaS Overview page, then `Settings` > `F5 WAF for NGINX`, and click `Enable`.)
 
 ---
-[include image from https://github.com/nginxinc/nginx-azure-workshops/blob/main/labs/lab9/media/lab9_diagram.png, but with minor changes to make it show WAF]
-[include image from https://github.com/nginxinc/nginx-azure-workshops/raw/main/labs/lab9/media/nginx-cache-icon.png]
 
 ## 🚀 Lab Exercises
 
@@ -27,17 +25,15 @@ Prior to configuring the WAF policy, run some common L7 HTTP vulnerability attac
   1. Open another tab in your browser (Chrome shown), navigate to the newly configured Load Balancer
      configuration: **http://juiceshop.example.com**, to confirm it is functional.
   
-  2. Using some of the sample attacks below, add the URI path & variables to your application to generate
-     security event data.
+  2. Some samples of malicious URIs are listed below. Paste each into your browser and observe the results.
 ```
-     * /?cmd=cat%20/etc/passwd
-     * /product?id=4%20OR%201=1
-     * /cart?search=aaa'><script>prompt('Please+enter+your+password');</script>
-     * /../../../../etc/shadow
-     * /product?code=echo%20shell_exec(%27/sbin/ifconfig%20eth0%27);
+     http://juiceshop.example.com/?cmd=cat%20/etc/passwd
+     http://juiceshop.example.com/cart?search=aaa'><script>prompt('Please+enter+your+password');</script>
+     http://juiceshop.example.com/product?code=echo%20shell_exec(%27/sbin/ifconfig%20eth0%27);
 ```
 
-Observe the results (NEED DESCRIPTION OF WHAT STUDENT SHOULD EXPECT TO SEE)
+The Juice Shop application will appear for each request, but they will generate security event data.
+Since these URIs have the potential of exposing vulnerabilities on some applications, we want to block requests like these.
 
 #### Understanding NGINX WAF Configuration
 
@@ -57,8 +53,8 @@ For a list of additional options that can be use to further customize your NGINX
 Create the Nginx for Azure configuration needed for the new WAF-protected version of juiceshop.example.com.
 
 Using the Nginx for Azure Console, enable WAF by adding the following line to /etc/nginx/nginx.conf:
-- "load_module modules/ngx_http_app_protect_module.so;" in nginx.conf.
-- "app_protect_enforcer_address 127.0.0.1:50000;" in the http context.
+- `load_module modules/ngx_http_app_protect_module.so;` in nginx.conf.
+- `app_protect_enforcer_address 127.0.0.1:50000;` in the http context.
 
 The nginx.conf file should now look like this:
 
@@ -77,17 +73,19 @@ The nginx.conf file should now look like this:
     error_log /var/log/nginx/error.log error;
     
     http {
-        include /etc/nginx/mime.types;
-        limit_req_zone $binary_remote_addr zone=mylimit:10m rate=1r/s;
-        
+        include /etc/nginx/mime.types;        
         app_protect_enforcer_address 127.0.0.1:50000;
         ...
 
+When complete, click Submit.
+
 Next, add the following lines to /etc/nginx/conf.d/juiceshop.conf, within the server context:
-- app_protect_enable on;
-- app_protect_policy_file "/etc/app_protect/conf/NginxDefaultPolicy.json";
-- app_protect_security_log_enable on;
-- app_protect_security_log "/etc/app_protect/conf/log_all.json" syslog:server=127.0.0.1:5140;
+```
+   app_protect_enable on;
+   app_protect_policy_file "/etc/app_protect/conf/NginxDefaultPolicy.json";
+   app_protect_security_log_enable on;
+   app_protect_security_log "/etc/app_protect/conf/log_all.json" syslog:server=127.0.0.1:5140;
+```
 
 The juiceshop.conf file should now look like this:
 
@@ -95,15 +93,14 @@ The juiceshop.conf file should now look like this:
     # WAF for Juiceshop
 
     server {
-        
         listen 80;      # Listening on port 80 on all IP addresses on this machine
 
         server_name juiceshop.example.com;   # Set hostname to match in request
         status_zone juiceshop;
 
-        # access_log  /var/log/nginx/juiceshop.log main;
-        access_log  /var/log/nginx/juiceshop.example.com.log main_ext;
-        error_log   /var/log/nginx/juiceshop.example.com_error.log info;
+        # REMOVE access_log  /var/log/nginx/juiceshop.log main;
+        # REMOVE access_log  /var/log/nginx/juiceshop.example.com.log main_ext;
+        # REMOVE error_log   /var/log/nginx/juiceshop.example.com_error.log info;
 
         # NGINX WAF CONFIGURATION
         app_protect_enable on;
@@ -112,47 +109,18 @@ The juiceshop.conf file should now look like this:
         app_protect_security_log "/etc/app_protect/conf/log_all.json" syslog:server=127.0.0.1:5140;
         # END OF NGINX WAF CONFIGURATION
 
-        location / {
-            
-            # return 200 "You have reached juiceshop server block, location /\n";
-
-            # Set Rate Limit, uncomment below
-            # limit_req zone=limit100;  #burst=110;       # Set  Limit and burst here
-            # limit_req_status 429;           # Set HTTP Return Code, better than 503s
-            # limit_req_dry_run on;           # Test the Rate limit, logged, but not enforced
-            # add_header X-Ratelimit-Status $limit_req_status;   # Add a custom status header
-
-            proxy_pass http://aks1_ingress;       # Proxy to AKS1 Nginx Ingress Controllers
-            add_header X-Proxy-Pass aks1_ingress_juiceshop;  # Custom Header
-
-        }
-
-        # Cache Proxy example for static images / page components
-        # Match common files with Regex
-        location ~* \.(?:ico|jpg|png)$ {
-            
-            ### Uncomment for new status_zone in dashboard
-            status_zone images;
-
-            proxy_cache image_cache;
-            proxy_cache_valid 200 60s;
-            proxy_cache_key $scheme$proxy_host$request_uri;
-
-            # Override cache control headers
-            proxy_ignore_headers X-Accel-Expires Expires Cache-Control Set-Cookie;
-            expires 365d;
-            add_header Cache-Control "public";
-
-            # Add a Cache status header - MISS, HIT, EXPIRED
-            
-            add_header X-Cache-Status $upstream_cache_status;
-            
-            proxy_pass http://aks1_ingress;    # Proxy AND load balance to AKS1 NIC
-            add_header X-Proxy-Pass nginxazure_imagecache;  # Custom Header
-
-        }  
-
+       location / {
+           # This matches the 'zone=limitone' we just defined in rate-limit.conf
+           limit_req zone=limit100;  #burst=110;       # Set  Limit and burst here
+        
+           proxy_pass http://juiceshop_backend;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           add_header X-Ratelimit-Status $limit_req_status;   # Add a custom status header
+       }
     }
+
+Click Submit.
 
 The default policy enforces violations by Violation Rating, the F5 WAF for NGINX computed assessment of the risk of the request based on the triggered violations.
 
@@ -170,8 +138,6 @@ This is true even if the other violations and signatures detected in that reques
 By default, other requests which have a lower violation rating are not blocked, except for some specific violations described below. This is to minimize false positives. However, you can change the default behavior.
 
 For more information on configuring WAF capability in NGINX, see https://docs.nginx.com/waf/policies/configuration/
-    
-**Submit your Nginx Configuration.**
 
 ### Task 3: Test the Newly-added NGINX WAF Policy
 
@@ -180,14 +146,11 @@ Now, test out the newly-deployed default WAF policy.
   1. Open another tab in your browser (Chrome shown), navigate to the newly configured Load Balancer
      configuration: **http://juiceshop.example.com**, to confirm it is functional.
   
-  2. Using some of the sample attacks below, add the URI path & variables to your application to generate
-     security event data.
+  2. Paste each of the previous malicious URI strings into your browser and observe the results.
 ```
-     * /?cmd=cat%20/etc/passwd
-     * /product?code=echo%20shell_exec(%27/sbin/ifconfig%20eth0%27);
-     * /cart?search=aaa'><script>prompt('Please+enter+your+password');</script>
-     * /../../../../etc/shadow
-     * /product?id=4%20OR%201=1
+     http://juiceshop.example.com/?cmd=cat%20/etc/passwd
+     http://juiceshop.example.com/cart?search=aaa'><script>prompt('Please+enter+your+password');</script>
+     http://juiceshop.example.com/product?code=echo%20shell_exec(%27/sbin/ifconfig%20eth0%27);
 ```
 
 > Note:
