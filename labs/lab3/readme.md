@@ -44,7 +44,7 @@ By the end of the lab you will be able to:
                     '"$http_user_agent" "$http_x_forwarded_for"';
     ```
 
-1. Update the `access_log` directive to enable logging. Within this directive, you will pass the full path of the log file (eg. `/var/log/nginx/access.log`) and also the `main` log format that you created in previous step. Click on `Submit` to apply the changes.
+1. Update the `access_log` directive to enable logging. Within this directive, you will pass the full path of the log file (eg. `/var/log/nginx/access.log`) and also the `main` log format referenced above. Click on `Submit` to apply the changes.
 
     ```nginx
     access_log  /var/log/nginx/access.log  main;
@@ -60,7 +60,7 @@ In this section you will create an extended log format which you will use with `
 
 1. Within the NGINX for Azure resource (nginx4a), open the `Settings > NGINX Configuration` pane.
 
-1. Within the `nginx.conf` file add a new extended log format named `main_ext` as shown in the below screenshot. Click on `Submit` to save the config file
+1. Within the `nginx.conf` file, in the http context (just after the “log_format  main” directive), add a new extended log format named `main_ext` as shown in the below screenshot. Click on `Submit` to save the config file
 
     ```nginx
     # Extended Log Format
@@ -86,7 +86,7 @@ In this section you will create an extended log format which you will use with `
 
     ![Extended log format add](images/lab6_main_ext_logformat_add.png)
 
-1. Once the extended log format has been created, open `cafe.example.com.conf` file and update the `access_log` to make use of the extended log format as shown in the below screenshot. Click on `Submit` to apply the changes.
+1. Once the extended log format has been created, open `cafe.example.com.conf` file and update the `access_log` to make use of the extended log format as shown in the below screenshot. Be sure `access_log` is not still set to main in /etc/nginx/nginx.conf. If it is, comment that line out by adding a “#” to the beginning of the line. Click on `Submit` to apply the changes.
 
     ```nginx
     access_log  /var/log/nginx/cafe.example.com.log main_ext;
@@ -106,16 +106,16 @@ In this section you will create an extended log format which you will use with `
     Make request to the default server block which is using the `main` log format for access logging by running below command.
 
     ```bash
-    docker run --name wrk --rm elswork/wrk -t4 -c200 -d1m --timeout 2s http://$MY_N4A_IP
+    sudo docker run --name wrk --rm elswork/wrk -t4 -c200 -d1m --timeout 2s http://$MY_N4A_IP
     ```
 
     Make request to the `cafe.example.com` server block which is using the `main_ext` log format for access logging by running below command.
 
     ```bash
-    docker run --name wrk --rm elswork/wrk -t4 -c200 -d1m --timeout 2s -H 'Host: cafe.example.com'  http://$MY_N4A_IP/coffee
+    sudo docker run --name wrk --rm elswork/wrk -t4 -c200 -d1m --timeout 2s -H 'Host: cafe.example.com'  http://$MY_N4A_IP/coffee
     ```
 
-1. Within Azure portal, open your NGINX for Azure resource (nginx4a). From the left pane click on `Monitoring > Logs`. This should open a new Qeury pane. Select `Resource type` from drop down and then type in `nginx` in the search box. This should show all the sample queries related to NGINX for Azure. Under `Show NGINXaaS access logs` click on `Run` button
+1. Within Azure portal, open your NGINX for Azure resource (nginx4a). From the left pane click on `Monitoring > Logs`. (If you receive a pop-up tutorial window you can dismiss it.) `NGINXaaS` may already be selected as the Resource type in the top-middle of the page. If not, Select Resource type from drop down and then type in NGINXaaS in the search box. This should open a new Query pane. Select `Resource type` from drop down and then type in `nginx` in the search box. This should show all the sample queries related to NGINX for Azure. Under `Show NGINXaaS access logs` click on `Run` button
 
     ![nginx4a logs](images/nginx4a_logs.png)
 
@@ -155,7 +155,7 @@ In this section you will create an extended log format which you will use with `
 1. Now generate some steady traffic using your local Docker Desktop. Start and run the `WRK` load generation tool from a container using below command to generate traffic:
 
     ```bash
-    docker run --name wrk --rm elswork/wrk -t4 -c200 -d30m --timeout 2s http://cafe.example.com/coffee
+    sudo docker run --name wrk --rm elswork/wrk -t4 -c200 -d30m --timeout 2s http://cafe.example.com/coffee
     ```
 
     The above command would run for 30 minutes and send request to `http://cafe.example.com/coffee` using 4 threads and 200 connections.
@@ -164,7 +164,7 @@ In this section you will create an extended log format which you will use with `
 
     ![default chart](images/lab3_default_chart.png)
 
-1. For the first chart, within **Metric Namespace** drop-down, select `nginx requests and response statistics`. For the **metrics** drop-down, select `server zone plus.http.request.count`. For the **Aggregation** , select `sum`.
+1. For the first chart, within **Metric Namespace** drop-down, select `NGINXaaS standard metrics`. For the **mMtric** drop-down, select `Server zone HTTP requests`. For the **Aggregation** , select `Sum`.
 
    Click on the **Apply Splitting** button. Within the **Values** drop-down, select `server_zone`. From top right change the **Time range** to `Last 30 minutes` and click on `Apply`. This should generate a chart similar to the below screenshot.
 
@@ -177,9 +177,9 @@ In this section you will create an extended log format which you will use with `
 
     ![Create Dashboard](images/lab3_create_dashboard.png)
 
-1. To view your newly created dashboard, within Azure portal, navigate to `Dashboard` resource.
+1. To view your newly created dashboard, within Azure portal, search for `Dashboard` and select `Dashboard hub`.
 
-    By default, this should open the default `My Dashboard` private dashboard. From the top drop-down select your custom dashboard name (`Nginx4a Dashboard`in the screenshot). This should open your custom dashboard which includes the pinned server request chart.
+    This should open the `Dashboard hub` page. From the top drop-down select your custom dashboard name (`Nginx4a Dashboard`in the screenshot). This should open your custom dashboard which includes the pinned server request chart.
 
     ![show dashboard](images/lab3_show_dashboard.png)
 
