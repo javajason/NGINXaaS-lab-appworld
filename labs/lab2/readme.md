@@ -56,7 +56,7 @@ upstream cafe_nginx {
 
   1. Click + New File again.
 
-  2. Name the second file: /etc/nginx/conf.d/cafe.example.com.conf.
+  2. Name the second file:  `/etc/nginx/conf.d/cafe.example.com.conf`.
 
   3. Copy and paste the following contents into the editor:
 
@@ -84,7 +84,7 @@ server {
 #### 4. Create a Mime Types file
 1. A mime.types file is required for the NGINX server configuration
 2. Click + New File again.
-3. Name the new file: /etc/nginx/mime.types
+3. Name the new file:  `/etc/nginx/mime.types`.
 4. Copy and paste the following contents into the editor:
 
 ```nginx
