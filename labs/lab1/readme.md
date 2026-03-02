@@ -35,21 +35,27 @@ To maximize our time during this workshop, the following baseline infrastructure
 
 ## 🚀 Lab Exercises
 
-### Task 1: Deploy an NGINX for Azure Resource
+### Task 1: Access Your Azure Account
+When you initially access the Azure portal, you will need to sign in and authenticate though an authenticator app. Begin by going to https://portal.azure.com/signin/index/@f5nginxpert.onmicrosoft.com from your desktop browser. If you have an existing Azure account, we recommend opening this link in an incognito window in order to avoid conflicts.
+
+- User name: `[student-number].student@f5nginxpert.onmicrosoft.com` (Use your assigned student number in place of `[student-number]`.)
+- Password: This will be provided by your lab instructors.
+
+### Task 2: Deploy an NGINX for Azure Resource
 Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisioned network and identity.
 
 1.  In the Azure Portal, search for and select **NGINXaaS**.
 2.  Click **Create**.
 3.  **Basics Tab:**
-    * **Resource Group:** Select the specific Resource Group assigned to you for this workshop.
+    * **Resource Group:** Select the specific Resource Group assigned to you for this workshop. For AppWorld 2026, this will be `Student[student-number]` (i.e., _StudentNinety-nine_).
     * **Deployment Name:** Give your deployment a unique name (e.g., `nginx-deployment-lab1`).
-    * **Region:** Select the region specified by your instructor.
+    * **Region:** Select the region specified by your instructor. For AppWorld 2026, this will be `Central US`.
     * **Pricing Plan:** Select the **Standard V3** SKU.
     * **Terms** You will need to accept the terms to continue.
-    * **NCU Capacity:** Enter 10 for the NGINX Capacity Unit (NCU) or higher if directed otherwise.
+    * **NCU Capacity:** Enter 10 for the NGINX Capacity Unit (NCU) unless directed otherwise.
 4.  **Networking Tab:**
-    * **Virtual Network:** Select the VNet (`appworld2026`) assigned to your resource group.
-    * **Subnet:** Select the delegated subnet designated for NGINX (`default subnet`).
+    * **Virtual Network:** Select the VNet assigned to your resource group. For AppWorld 2026, this will be `appworld2026`.
+    * **Subnet:** Select the delegated subnet designated for NGINX.
     * **Access Consent:** Click the checkbox for **"I allow NGINX service provider to access the above virtual network for deployment."**
     * **Public IP:** Create a new Public IP address.
     * **Public inbound ports:** Select "Allow selected ports" and check "Select all" in the drop-down menu.
@@ -66,7 +72,7 @@ Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisi
     * Click **Review + Create**. Once validation passes, click **Create** to launch your NGINX instance.
  
   
-### Task 2: Create Log Analytics Workspace & Enable Monitoring
+### Task 3: Create Log Analytics Workspace & Enable Monitoring
 Before exploring the resource, we will set up the logging destination to ensure all subsequent activity is captured.
 
 1.  In the Azure Portal, search for and select **Log Analytics workspaces**.
@@ -86,7 +92,7 @@ Before exploring the resource, we will set up the logging destination to ensure 
 
   ![Create Diagnostic settings](images/lab1_create_diagonistic_2.png)
 
-### Explore Nginx for Azure
+### Task 4: Explore Nginx for Azure
 
 <br/>
 
@@ -108,7 +114,9 @@ In this section you will be looking at NGINX for Azure resource that you created
 
    ![Copy IP Address](images/lab1_copy_ip_address.png)
 
-4. In a new browser window, paste the public IP into the address bar. You will notice the sample index page gets rendered into your browser.
+4. Open your RDP session to the jump host and open Chrome.
+
+6. In the Chrome browser, paste the public IP into the address bar. You will notice the sample index page gets rendered into your browser.
 
    ![n4a Index Page](images/lab1_n4a_index_page.png)
 
@@ -117,7 +125,7 @@ In this section you will be looking at NGINX for Azure resource that you created
    - From a command line, run "curl http://\<public-IP-address\> -vv".
    - Ask a lab instructor for additional help.
 
-6. Congratulations!!! you have successfully deployed the sample index page within NGINX for Azure. This also completes the validation of all the resources that you created using Azure CLI. In the upcoming labs you would be modifying the configuration files and exploring various features of NGINX for Azure resources.
+7. Congratulations!!! you have successfully deployed the sample index page within NGINX for Azure. This also completes the validation of all the resources that you created using Azure CLI. In the upcoming labs you would be modifying the configuration files and exploring various features of NGINX for Azure resources.
 
    **Set your IP variable** (Replace with your actual NGINXaaS Public IP):
 
