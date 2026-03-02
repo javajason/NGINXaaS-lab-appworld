@@ -57,6 +57,8 @@ Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisi
     * **Enable F5 WAF for NGINX:** Select "true".
   
    ![Networking](images/lab1_networking.png)
+
+   ![Waf](images/lab1_waf.png)
       
 5.  **Identity Tab:**
     * Associate the **User Assigned Managed Identity** created during the setup phase.
