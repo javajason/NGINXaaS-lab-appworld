@@ -55,6 +55,9 @@ Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisi
     * **Public inbound ports:** Select "Allow selected ports" and check "Select all" in the drop-down menu.
     * **Apply NGINX configuration:** Select "Default".
     * **Enable F5 WAF for NGINX:** Select "true".
+  
+   ![Networking](images/lab1_networking.png)
+      
 5.  **Identity Tab:**
     * Associate the **User Assigned Managed Identity** created during the setup phase.
 6.  **Review + Create:**
