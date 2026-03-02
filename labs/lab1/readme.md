@@ -51,7 +51,7 @@ Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisi
     * **Virtual Network:** Select the VNet (`appworld2026`) assigned to your resource group.
     * **Subnet:** Select the delegated subnet designated for NGINX (`default subnet`).
     * **Access Consent:** Click the checkbox for **"I allow NGINX service provider to access the above virtual network for deployment."**
-    * **Public IP:** Select the pre-provisioned Public IP address.
+    * **Public IP:** Create a new Public IP address.
     * **Public inbound ports:** Select "Allow selected ports" and check "Select all" in the drop-down menu.
     * **Apply NGINX configuration:** Select "Default".
     * **Enable F5 WAF for NGINX:** Select "true".
