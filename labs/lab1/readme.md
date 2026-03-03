@@ -23,6 +23,7 @@ To maximize our time during this workshop, the following baseline infrastructure
 - Familiarity with basic Linux concepts and commands.
 - Familiarity with basic Azure concepts and commands.
 - Familiarity with basic NGINX concepts and commands.
+- The lab instructor will assign you a student number. Use this in place of "\<student-number\>" for this lab.
 
 <br/>
 
@@ -37,7 +38,7 @@ To maximize our time during this workshop, the following baseline infrastructure
 ### Task 1: Access Your Azure Account
 When you initially access the Azure portal, you will need to sign in and authenticate though an authenticator app. Begin by going to https://portal.azure.com/signin/index/@f5nginxpert.onmicrosoft.com from your desktop browser. If you have an existing Azure account, we recommend opening this link in an incognito window in order to avoid conflicts.
 
-- User name: `[student-number].student@f5nginxpert.onmicrosoft.com` (Use your assigned student number in place of `[student-number]`.)
+- User name: `<student-number>.student@f5nginxpert.onmicrosoft.com` (Use your assigned student number in place of `<student-number>`.)
 - Password: This will be provided by your lab instructors.
 
 ### Task 2: Deploy an NGINX for Azure Resource
@@ -46,20 +47,21 @@ Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisi
 1.  In the Azure Portal, search for and select **NGINXaaS**.
 2.  Click **Create**.
 3.  **Basics Tab:**
-    * **Resource Group:** Select the specific Resource Group assigned to you for this workshop. For AppWorld 2026, this will be `Student[student-number]` (i.e., _StudentNinety-nine_).
-    * **Deployment Name:** Give your deployment a unique name (e.g., `<your-initials>-nginx-deployment-lab1`).
+    * **Resource Group:** Select the specific Resource Group assigned to you for this workshop. For AppWorld 2026, this will be `Student<student-number>` (i.e., _StudentNinety-nine_).
+    * **Instance details >> Name:** Give your deployment a unique name (e.g., `<student-number>-nginx-deployment-lab1`).
     * **Region:** Select the region specified by your instructor. For AppWorld 2026, this will be `Central US`.
     * **Pricing Plan:** Select the **Standard V3** SKU.
     * **Terms** You will need to accept the terms to continue.
     * **NCU Capacity:** Enter 10 for the NGINX Capacity Unit (NCU) unless directed otherwise.
+    * Click `Next`.
 4.  **Networking Tab:**
     * **Virtual Network:** Select the VNet assigned to your resource group. For AppWorld 2026, this will be **appworld2026**.
-    * **Subnet:** Select the delegated subnet designated for NGINX (e.g., **default**).
+    * **Subnet:** Select the `default` subnet unless otherwise instructed.
     * **Access Consent:** Click the checkbox for **"I allow NGINX service provider to access the above virtual network for deployment."**
     * **Public IP:** Create a new Public IP address.
     * **Apply NGINX configuration:** Select "Default".
     * **Enable F5 WAF for NGINX:** Select "true".
-  
+    * Click `Next`.
    ![Networking](images/lab1_networking.png)
 
    ![Waf](images/lab1_waf.png)
@@ -71,16 +73,16 @@ Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisi
 Before exploring the resource, we will set up the logging destination to ensure all subsequent activity is captured.
 
 1.  In the Azure Portal, search for and select **Log Analytics workspaces**.
-2.  Click **Create**, select your **Resource Group**, and name it (e.g., `<your-initials>-nginx-workshop-logs`). Make a note of this workspace name as you will need to reference it again later.
+2.  Click **Create**, select your **Resource Group**, and name it (e.g., `<student-number>-nginx-workshop-logs`). Make a note of this workspace name as you will need to reference it again later.
 
   ![Create Log Analytics](images/lab1_create_log.png)
   
-3.  Once created, navigate back to your **NGINX for Azure resource** `<your-initials>-nginx-deployment-lab1`.
+3.  Once created, navigate back to your **NGINX for Azure resource** `<student-number>-nginx-deployment-lab1`.
 4.  Under the **Monitoring** section, select **Diagnostic settings**.
 
  ![Create Diagnostic settings](images/lab1_create_diagonistic_1.png)
     
-5.  Select **+ Add diagnostic setting**. Give it a name (e.g., `<your-initials>-diagnostic>`).
+5.  Select **+ Add diagnostic setting**. Give it a name (e.g., `<student-number>-diagnostic>`).
 6.  Under the **Logs Categories** section check both **NGINX Logs** and **NGINX Security Logs**.
 7.  Under **Destination details**" check **Send to Log Analytics workspace** and select the workspace you just created.
 8.  **Save** the settings.
@@ -99,7 +101,7 @@ In this section you will be looking at NGINX for Azure resource that you created
 
    ![Portal ResourceGroup home](images/lab1_portal_rg_home.png)
 
-2. Click on your NGINX for Azure resource (`<your-initials>-nginx-deployment-lab1`) which should open the **Overview** section of your resource. You can see useful information like Status, NGINX for Azure resource's public IP, which NGINX version is running, which VNet/Subnet it is using, etc.
+2. Click on your NGINX for Azure resource (`<student-number>-nginx-deployment-lab1`) which should open the **Overview** section of your resource. You can see useful information like Status, NGINX for Azure resource's public IP, which NGINX version is running, which VNet/Subnet it is using, etc.
 
    ![Portal N4A home](images/lab1_portal_n4a_home.png)
 
